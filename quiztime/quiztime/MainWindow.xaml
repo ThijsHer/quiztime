@@ -1,0 +1,338 @@
+﻿<Window x:Class="quiztime.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:quiztime"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="450"
+        Width="800">
+    <Grid Background="#FF15064C">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*" />
+            <ColumnDefinition Width="143*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="57*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="startscreen"
+              Visibility="Hidden"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2">
+            <Button Content="Maak een quiz"
+                    Margin="271,166,311,217"
+                    Click="makeQuiz" />
+            <Button Content="Speel een quiz"
+                    Margin="271,245,311,138"
+                    Click="playQuiz" />
+
+        </Grid>
+        <Grid Name="MakeQuizWindow"
+              Visibility="Hidden"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2">
+            <Button Margin="302,217,302,150" />
+            <TextBlock HorizontalAlignment="Center"
+                       Margin="0,94,0,0"
+                       TextWrapping="Wrap"
+                       Text="Maak een quiz"
+                       VerticalAlignment="Top"
+                       FontSize="24" />
+            <TextBox HorizontalAlignment="Center"
+                     Margin="0,146,0,0"
+                     TextWrapping="Wrap"
+                     Text="TextBox"
+                     VerticalAlignment="Top"
+                     Width="196"
+                     Height="47" />
+
+        </Grid>
+        <Grid Name="SelectAQuiz"
+              Visibility="Visible"
+              Background="#FF15064C"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2">
+            <Button Content="NEXT&#xD;&#xA;-----&gt;"
+                    HorizontalAlignment="Left"
+                    Margin="152,49,0,0"
+                    VerticalAlignment="Top"
+                    Height="63"
+                    Width="82"
+                    Click="Button_Click"
+                    RenderTransformOrigin="1.518,-0.437" />
+
+            <TextBlock HorizontalAlignment="Center"
+                       Margin="0,58,0,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       Height="70"
+                       Width="140"
+                       TextAlignment="Center"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       FontFamily="Comic Sans MS"
+                       Foreground="White"><Run Text="Kie" /><Run Language="nl-nl"
+                                                                 Text="s" /><Run Text=" een quiz" /></TextBlock>
+            <DataGrid x:Name="quiztable"
+                      d:ItemsSource="{Binding Source=myQuiz}"
+                      Margin="152,128,152,57">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}"
+                                        x:Name="quizid"
+                                        Header="id" />
+                    <DataGridTextColumn Binding="{Binding Name}"
+                                        x:Name="quizname"
+                                        Header="naam" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Tag="{Binding Id}"
+                                        x:Name="playclick"
+                                        Click="play_Click">speel quiz</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+
+
+            </DataGrid>
+            <Button Content="Back&#xD;&#xA;&lt;-----"
+                    HorizontalAlignment="Left"
+                    Margin="55,49,0,0"
+                    VerticalAlignment="Top"
+                    Height="63"
+                    Width="82"
+                    Click="Button_Click_1" />
+            <CheckBox Content="Nakijken"
+                      HorizontalAlignment="Left"
+                      Margin="29,128,0,0"
+                      VerticalAlignment="Top"
+                      Checked="CheckBox_Checked"
+                      Height="39"
+                      Width="118"
+                      Foreground="White"
+                      FontFamily="Comic Sans MS"
+                      FontSize="22"
+                      Unchecked="CheckBox_Unchecked" />
+            <Button Content="Quiz Aanmaken"
+                    HorizontalAlignment="Left"
+                    Margin="29,217,0,0"
+                    VerticalAlignment="Top"
+                    Height="61"
+                    Width="88"
+                    Click="Button_Click_2" />
+
+
+        </Grid>
+        <Grid x:Name="quizaanmaken"
+              Visibility="Hidden"
+              Margin="0,0,0,10"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2">
+            <Button Content="Next"
+                    Margin="298,234,298,121"
+                    FontSize="20"
+                    FontFamily="Comic Sans MS"
+                    Click="Button_Click_3" />
+            <Label Content="QuizName"
+                   HorizontalAlignment="Center"
+                   Margin="0,100,0,0"
+                   VerticalAlignment="Top"
+                   FontFamily="Comic Sans MS"
+                   FontSize="24"
+                   Foreground="White"
+                   Height="63"
+                   Width="204"
+                   VerticalContentAlignment="Center"
+                   HorizontalContentAlignment="Center" />
+            <TextBox x:Name="newquizname"
+                     HorizontalAlignment="Center"
+                     Margin="0,168,0,0"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     Width="204"
+                     Height="44"
+                     FontFamily="Comic Sans MS"
+                     FontSize="20"
+                     TextAlignment="Center" />
+
+        </Grid>
+
+        <Grid x:Name="vragenaanmaken"
+              Visibility="Hidden"
+              Margin="0,0,0,10"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2">
+            <Button Content="Select Image"
+                    Margin="299,264,297,90"
+                    FontSize="20"
+                    FontFamily="Comic Sans MS"
+                    Click="selectimage" />
+            <Label Content="Quiz Maken"
+                   HorizontalAlignment="Center"
+                   Margin="0,13,0,0"
+                   VerticalAlignment="Top"
+                   FontFamily="Comic Sans MS"
+                   FontSize="24"
+                   Foreground="White"
+                   Height="63"
+                   Width="204"
+                   VerticalContentAlignment="Center"
+                   HorizontalContentAlignment="Center" />
+            <TextBox x:Name="quizquestion"
+                     HorizontalAlignment="Center"
+                     Margin="0,76,0,0"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     Width="393"
+                     Height="55"
+                     FontFamily="Comic Sans MS"
+                     FontSize="20"
+                     TextAlignment="Center"
+                     Text="Quiz Vraag" />
+            <TextBox x:Name="answer1"
+                     HorizontalAlignment="Left"
+                     Margin="204,136,0,0"
+                     TextWrapping="Wrap"
+                     Text="Antwoord A"
+                     VerticalAlignment="Top"
+                     Width="191"
+                     Height="59"
+                     FontSize="20"
+                     FontFamily="Comic Sans MS"
+                     TextAlignment="Center" />
+            <TextBox x:Name="answer3"
+                     HorizontalAlignment="Left"
+                     Margin="400,136,0,0"
+                     TextWrapping="Wrap"
+                     Text="Antwoord C"
+                     VerticalAlignment="Top"
+                     Width="196"
+                     Height="59"
+                     FontSize="20"
+                     FontFamily="Comic Sans MS"
+                     TextAlignment="Center" />
+            <TextBox x:Name="answer4"
+                     HorizontalAlignment="Left"
+                     Margin="400,200,0,0"
+                     TextWrapping="Wrap"
+                     Text="Antwoord D"
+                     VerticalAlignment="Top"
+                     Width="196"
+                     Height="59"
+                     FontSize="20"
+                     FontFamily="Comic Sans MS"
+                     TextAlignment="Center"/>
+            <TextBox x:Name="answer2"
+                     HorizontalAlignment="Left"
+                     Margin="204,200,0,0"
+                     TextWrapping="Wrap"
+                     Text="Antwoord B"
+                     VerticalAlignment="Top"
+                     Width="191"
+                     Height="59"
+                     FontSize="20"
+                     FontFamily="Comic Sans MS"
+                     TextAlignment="Center" />
+            <CheckBox x:Name="Correct1"
+                      Content="Correct"
+                      HorizontalAlignment="Right"
+                      Margin="0,146,601,0"
+                      VerticalAlignment="Top"
+                      Height="16"
+                      Foreground="White"
+                      FontFamily="Comic Sans MS"
+                      FontSize="13"
+                      Checked="___No_Name__Checked"
+                      Unchecked="incorrect1">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2"
+                                    ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <CheckBox x:Name="Correct2"
+                      Content="Correct"
+                      HorizontalAlignment="Right"
+                      Margin="0,212,601,0"
+                      VerticalAlignment="Top"
+                      Height="16"
+                      Foreground="White"
+                      FontFamily="Comic Sans MS"
+                      FontSize="13"
+                      Checked="correct2_Checked"
+                      Unchecked="incorrect2">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2"
+                                    ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <CheckBox x:Name="Correct4"
+                      Content="Correct"
+                      HorizontalAlignment="Right"
+                      Margin="0,214,65,0"
+                      VerticalAlignment="Top"
+                      Height="16"
+                      Foreground="White"
+                      FontFamily="Comic Sans MS"
+                      FontSize="13"
+                      Checked="correct4_Checked"
+                      Unchecked="incorrect4">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2"
+                                    ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <CheckBox x:Name="Correct3"
+                      Content="Correct"
+                      HorizontalAlignment="Right"
+                      Margin="0,150,65,0"
+                      VerticalAlignment="Top"
+                      Height="16"
+                      Foreground="White"
+                      FontFamily="Comic Sans MS"
+                      FontSize="13"
+                      Checked="Correct3_Checked"
+                      Unchecked="incorrect3">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2"
+                                    ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <Image x:Name="imagePicture"
+                   Margin="27,301,615,37" />
+            <Button Content="&lt;-"
+                    Margin="205,264,506,90"
+                    FontSize="20"
+                    FontFamily="Comic Sans MS"
+                    Click="buttonback" />
+            <Button x:Name="next"
+                    Content="-&gt;"
+                    Margin="508,264,204,90"
+                    FontSize="20"
+                    FontFamily="Comic Sans MS"
+                    Click="next_button" />
+            <Button x:Name="savequiz"
+                    Content="Save&#xD;&#xA;Quiz"
+                    Margin="685,326,27,10"
+                    FontSize="20"
+                    FontFamily="Comic Sans MS"
+                    Click="savequiz_Click" />
+            <Button x:Name="savequiz_Copy"
+                    Content="Back"
+                    Margin="18,326,694,10"
+                    FontSize="20"
+                    FontFamily="Comic Sans MS"
+                    Click="backtostart" />
+
+        </Grid>
+
+
+
+
+    </Grid>
+
+</Window>
+    
